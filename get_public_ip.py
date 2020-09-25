@@ -18,7 +18,7 @@ scheduler = BlockingScheduler()
 
 def job_ip(): 
     subp = subprocess.Popen('curl ip.42.pl/raw',shell=True,stdout=subprocess.PIPE)
-    while subp == "":
+    while len(subp) == 0:
         subp = subprocess.Popen('curl ip.42.pl/raw',shell=True,stdout=subprocess.PIPE)
         
     subp2 = subprocess.Popen('cat /etc/public_ip/public_ip.txt',shell=True,stdout=subprocess.PIPE)
