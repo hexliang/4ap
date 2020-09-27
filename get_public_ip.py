@@ -18,13 +18,12 @@ scheduler = BlockingScheduler()
 
 def job_ip(): 
     subp = subprocess.Popen('curl ip.42.pl/raw',shell=True,stdout=subprocess.PIPE)
-    while len(subp) == 0:
-        subp = subprocess.Popen('curl ip.42.pl/raw',shell=True,stdout=subprocess.PIPE)
-        
     subp2 = subprocess.Popen('cat /etc/public_ip/public_ip.txt',shell=True,stdout=subprocess.PIPE)
-    new_ip=subp.stdout.readline().decode().strip()
-    old_ip=subp2.stdout.readline().decode().strip()
-    
+    old_ip = subp2.stdout.readline().decode().strip()
+    new_ip = subp.stdout.readline().decode().strip()
+    while len(new_ip) == 0:
+        subp = subprocess.Popen('curl ip.cip.cc',shell=True,stdout=subprocess.PIPE)
+        new_ip = subp.stdout.readline().decode().strip()
     if new_ip == old_ip :
         f = open("/etc/public_ip/public_ip.txt","w")
         print(old_ip,file=f)
